@@ -4,7 +4,7 @@ variable "vnet" {
 }
 variable "rg" {
   type    = string
-  default = "TestInfra"
+  default = "NewRG"
 }
 
 variable "servers" {
