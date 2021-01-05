@@ -23,7 +23,10 @@ variable "nic_names" {
   type    = string
   default = "ApacheNIC"
 }
-
+variable "nsg" {
+  type    = string
+  default = "ApacheNSG"
+}
 
 variable "sub" {
   type    = string

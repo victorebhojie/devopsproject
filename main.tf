@@ -48,7 +48,7 @@ resource "azurerm_public_ip" "publicip" {
 
 
 resource "azurerm_network_security_group" "nsg" {
-  name                = "TestNSG"
+  name                = var.nsg
   location            = "WestUS"
   resource_group_name = var.rg
 
@@ -73,11 +73,11 @@ resource "azurerm_network_interface" "NIC" {
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
     public_ip_address_id          = azurerm_public_ip.publicip.id
   }
 }
-
+output "public_ip" { value = azurerm_public_ip.public_ip.ip_address }
 
 resource "random_id" "randomId" {
   keepers = {
