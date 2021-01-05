@@ -23,9 +23,22 @@ variable "nic_names" {
   type    = string
   default = "ApacheNIC"
 }
+variable "nic_names" {
+  type    = string
+  default = "ApacheNIC"
+}
 
+variable "sub" {
+  type    = string
+  default = "0be5258f-1755-4279-80ff-7485c444defb"
+}
+variable "client_id" {
+  type    = string
+  default = "e59ffff8-2dcd-4adc-8a2a-2fbff15f5ced"
+}
+variable "tenant_id" {
+  type    = string
+  default = "ae278fc0-4b73-48ef-90b1-063a57846873"
+}
 
-variable "sub" { type = string }
 variable "client_secret" { type = string }
-variable "client_id" { type = string }
-variable "tenant_id" { type = string }
