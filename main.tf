@@ -77,7 +77,7 @@ resource "azurerm_network_interface" "NIC" {
     public_ip_address_id          = azurerm_public_ip.publicip.id
   }
 }
-output "public_ip" { value = azurerm_public_ip.public_ip.ip_address }
+output "public_ip" { value = azurerm_public_ip.publicip.ip_address }
 
 resource "random_id" "randomId" {
   keepers = {
