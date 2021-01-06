@@ -42,6 +42,7 @@ resource "azurerm_public_ip" "publicip" {
   name                = var.publicip
   resource_group_name = var.rg
   location            = "WestUS"
+  PrivateIpAddress =  "10.0.0.4" 
   allocation_method   = "Static"
   depends_on          = [azurerm_resource_group.resourcegroup]
 }
