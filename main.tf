@@ -129,8 +129,8 @@ resource "azurerm_linux_virtual_machine" "VM" {
   }
 
   computer_name                   = "apacheserverVM"
-  admin_username                  = "var.username"
-  admin_password                  = "var.pwd"
+  admin_username                  = var.username
+  admin_password                  = var.pwd
   disable_password_authentication = false
 
 

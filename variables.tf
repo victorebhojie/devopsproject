@@ -12,7 +12,7 @@ variable "username" {
 }
 variable "pwd" {
   type    = string
-  default = "PositiveVibrations1234"
+  default = "Pwd@1234"
 }
 
 variable "servers" {
