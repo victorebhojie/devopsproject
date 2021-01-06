@@ -4,7 +4,15 @@ variable "vnet" {
 }
 variable "rg" {
   type    = string
-  default = "RGApache"
+  default = "ApacheResourceGroup"
+}
+variable "username" {
+  type    = string
+  default = "victor"
+}
+variable "pwd" {
+  type    = string
+  default = "Pwd@1234"
 }
 
 variable "servers" {

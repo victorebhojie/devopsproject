@@ -46,6 +46,12 @@ resource "azurerm_public_ip" "publicip" {
   depends_on          = [azurerm_resource_group.resourcegroup]
 }
 
+data "azurerm_public_ip" "publicip" {
+  name                = azurerm_public_ip.publicip.name
+  address = azurerm_public_ip.publicip.ip_address
+  
+}
+
 
 resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg
@@ -89,7 +95,7 @@ resource "random_id" "randomId" {
   byte_length = 8
 }
 
-# Create storage account for boot diagnostics
+# I Created storage account for boot diagnostics
 resource "azurerm_storage_account" "storageaccount" {
   name                     = "diag${random_id.randomId.hex}"
   resource_group_name      = azurerm_resource_group.resourcegroup.name
@@ -100,14 +106,8 @@ resource "azurerm_storage_account" "storageaccount" {
 
 }
 
-# Create (and display) an SSH key
-resource "tls_private_key" "example_ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-output "tls_private_key" { value = tls_private_key.example_ssh.private_key_pem }
 
-# Create virtual machine
+# I Created Linux virtual machine
 resource "azurerm_linux_virtual_machine" "VM" {
   name                  = "ApacherServerVM"
   location              = "westus"
@@ -129,13 +129,11 @@ resource "azurerm_linux_virtual_machine" "VM" {
   }
 
   computer_name                   = "apacheserverVM"
-  admin_username                  = "victor"
-  disable_password_authentication = true
+  admin_username                  = "var.username"
+  admin_password                  = "var.pwd"
+  disable_password_authentication = false
 
-  admin_ssh_key {
-    username   = "victor"
-    public_key = tls_private_key.example_ssh.public_key_openssh
-  }
+
 
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.storageaccount.primary_blob_endpoint
@@ -143,5 +141,16 @@ resource "azurerm_linux_virtual_machine" "VM" {
 
   tags = {
     environment = "Terraform Demo"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update && sudo apt -y install apache2",
+    ]
+  connection {
+    type = ssh
+    user = var.username
+    password =  var.pwd
+    host = data.azurerm_public_ip.publicip.ip_address
+  }
   }
 }
