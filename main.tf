@@ -42,7 +42,6 @@ resource "azurerm_public_ip" "publicip" {
   name                = var.publicip
   resource_group_name = var.rg
   location            = "WestUS"
-  PrivateIpAddress =  "10.0.0.4" 
   allocation_method   = "Static"
   depends_on          = [azurerm_resource_group.resourcegroup]
 }
@@ -75,6 +74,7 @@ resource "azurerm_network_interface" "NIC" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.0.4"
     public_ip_address_id          = azurerm_public_ip.publicip.id
   }
 }
