@@ -11,7 +11,7 @@ provider "azurerm" {
   tenant_id       = "${var.tenant_id}"
   features {}
 }
-
+# create resource group
 resource "azurerm_resource_group" "resourcegroup" {
 
   name = var.rg
@@ -19,7 +19,7 @@ resource "azurerm_resource_group" "resourcegroup" {
   location = "West US"
 
 }
-
+# create virtual networ
 resource "azurerm_virtual_network" "mainnetwork" {
 
   name                = var.vnet
@@ -29,7 +29,7 @@ resource "azurerm_virtual_network" "mainnetwork" {
   depends_on          = [azurerm_resource_group.resourcegroup]
 
 }
-
+#create subnet
 resource "azurerm_subnet" "subnet" {
   name                 = "Apache-Subnet"
   resource_group_name  = var.rg
@@ -37,7 +37,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefix       = "10.0.0.0/24"
   depends_on           = [azurerm_virtual_network.mainnetwork]
 }
-
+#create public IP 
 resource "azurerm_public_ip" "publicip" {
   name                = var.publicip
   resource_group_name = var.rg
@@ -45,14 +45,14 @@ resource "azurerm_public_ip" "publicip" {
   allocation_method   = "Static"
   depends_on          = [azurerm_resource_group.resourcegroup]
 }
-
+#reserve data for IP adress to be used to install apache instance
 data "azurerm_public_ip" "publicip" {
   name                = azurerm_public_ip.publicip.name
   resource_group_name = azurerm_public_ip.publicip.resource_group_name
   
 }
 
-
+#create network security group to filter traffic
 resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg
   location            = "WestUS"
@@ -71,6 +71,8 @@ resource "azurerm_network_security_group" "nsg" {
   }
   depends_on = [azurerm_resource_group.resourcegroup]
 }
+
+# create NIC
 resource "azurerm_network_interface" "NIC" {
   name                = var.nic_names
   location            = "WestUS"
@@ -85,7 +87,7 @@ resource "azurerm_network_interface" "NIC" {
   }
 }
 output "public_ip" { value = azurerm_public_ip.publicip.ip_address }
-
+# generate random id for storage account    
 resource "random_id" "randomId" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
@@ -142,6 +144,7 @@ resource "azurerm_linux_virtual_machine" "VM" {
   tags = {
     environment = "Terraform Demo"
   }
+  # make use of provisioners to configure apache on VM
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update && sudo apt -y install apache2",
