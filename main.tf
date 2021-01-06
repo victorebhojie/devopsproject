@@ -48,7 +48,7 @@ resource "azurerm_public_ip" "publicip" {
 
 data "azurerm_public_ip" "publicip" {
   name                = azurerm_public_ip.publicip.name
-  address = azurerm_public_ip.publicip.ip_address
+  resource_group_name = azurerm_public_ip.publicip.resource_group_name
   
 }
 
