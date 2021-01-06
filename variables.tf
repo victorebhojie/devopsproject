@@ -4,7 +4,7 @@ variable "vnet" {
 }
 variable "rg" {
   type    = string
-  default = "ApacheResourceGroup"
+  default = "ApacheGroup"
 }
 variable "username" {
   type    = string
@@ -12,7 +12,7 @@ variable "username" {
 }
 variable "pwd" {
   type    = string
-  default = "Pwd@1234"
+  default = "PositiveVibrations1234"
 }
 
 variable "servers" {
