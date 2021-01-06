@@ -4,7 +4,7 @@ variable "vnet" {
 }
 variable "rg" {
   type    = string
-  default = "ApacheGroup"
+  default = "ApacheGrou"
 }
 variable "username" {
   type    = string
