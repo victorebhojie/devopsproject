@@ -147,7 +147,7 @@ resource "azurerm_linux_virtual_machine" "VM" {
       "sudo apt-get update && sudo apt -y install apache2",
     ]
   connection {
-    type = ssh
+    type = "ssh"
     user = var.username
     password =  var.pwd
     host = data.azurerm_public_ip.publicip.ip_address
